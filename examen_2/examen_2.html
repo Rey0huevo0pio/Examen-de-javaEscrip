@@ -1,73 +1,73 @@
 <!DOCTYPE html>
 <html>
-  <head><link rel="stylesheet" type="text/css" href="/examen_2/examen_2.css"
 <body>
-
+<head><link rel="stylesheet" href="examen_2.css"></head>
 <h2>Formulario de Registro</h2>
 <center>
 <form id="registro" class="registro">
   <!--parte uno nombre -->
-
   <label for="nombre">Nombre:</label><br>
   <input type="text" id="nombre" name="nombre"><br>
   
   <!--parte dos telefono -->
   <label for="telefono">Telefono:</label><br>
   <input type="text" id="telefono" name="telefono"><br>
+  
   <!--parte tres Correo -->
   <label for="correo">Correo:</label><br>
   <input type="text" id="correo" name="correo"><br>
 
-
-
-  <!--parte Cuatro escula-->
-
-
+  <!--parte Cuatro escuela-->
   <label for="escuela">Escuela:</label><br>
-
-  <select id="escuela" name="escuela" onchange="checkOtherSchool(this.value)">
+  <select id="escuela" name="escuela" onchange="OPciones_Escuela(this.value)">
     <option value="Cecytem">Cecytem</option>
     <option value="Conalep">Conalep</option>
     <option value="Cetmar">Cetmar</option>
-    <option value="Otra escula">Otra</option>
+    <option value="Otra escuela">Otra</option>
   </select><br>
   <div id="otraEscuela" style="display: none;">
     <label for="otraE">Otra Escuela:</label><br>
     <input type="text" id="otraE" name="otraE"><br>
   </div>
+
   <!--Parte 5 carreras con opciones-->
   <label for="carrera">Carrera:</label><br>
-
-  <select id="carrera" name="carrera" onchange="checkOtherCareer(this.value)">
-    <option value="Ingeniería">Ingeniería</option>
-    <option value="Medicina">Medicina</option>
-    <option value="Derecho">Derecho</option>
-    <option value="otra">Otra</option>
+  <select id="carrera" name="carrera">
   </select><br>
   <div id="otraCarrera" style="display: none;">
-    <label for="otra">Otra Carrera:</label><br>
-    <input type="text" id="otra" name="otra"><br>
-  </div> <!--donde termina-->
+    <label for="otraC">Otra Carrera:</label><br>
+    <input type="text" id="otraC" name="otraC"><br>
+  </div>
 
-  <input type="button" value="Enviar" onclick="Envio()" > <!--donde termina-->
-
+  <input type="button" value="Enviar" onclick="Envio()" >
 </form>
 </center>
 <p id="resultado"  class="Envio"></p>
 
 <script>
-function checkOtherCareer(value) {
-  if (value === "otra") {
+var carrerasPorEscuela = {
+  "Cecytem": ["Homosexualid", "Gay","Pedofilo","Fresa"],
+  "Conalep": ["Robar", "Ser mama","secuestrar"],
+  "Cetmar": ["Transexual", "Progre","gay"],
+  "Otra escuela": []
+};
+
+function OPciones_Escuela(value) {
+  var selectCarrera = document.getElementById("carrera");
+  selectCarrera.innerHTML = "";
+  var carreras = carrerasPorEscuela[value];
+  for(var i = 0; i < carreras.length; i++) {
+    var opt = document.createElement('option');
+    opt.value = carreras[i];
+    opt.innerHTML = carreras[i];
+    selectCarrera.appendChild(opt);
+  }
+  if (value === "Otra escuela") {
+    document.getElementById("otraEscuela").style.display = "block";
     document.getElementById("otraCarrera").style.display = "block";
   } else {
-    document.getElementById("otraCarrera").style.display = "none";
-  }
-}
-function checkOtherSchool(value) {
-  if (value === "Otra escula") {
-    document.getElementById("otraEscuela").style.display = "block";
-  } else {
     document.getElementById("otraEscuela").style.display = "none";
+    document.getElementById("otraCarrera").style.display = "none";
   }
 }
 
@@ -77,14 +77,15 @@ function Envio() {
   var correo = document.getElementById("correo").value;
   var escuela = document.getElementById("escuela").value;
   var carrera = document.getElementById("carrera").value;
-  if (carrera === "otra") {
-    carrera = document.getElementById("otra").value;
-  }
-  if (escuela === "Otra escula") {
+  if (escuela === "Otra escuela") {
     escuela = document.getElementById("otraE").value;
   }
-  document.getElementById("resultado").innerHTML = "Nombre: " + nombre + ",<br> Telefono: " + telefono +  ",<br> Correo: " + correo + ",<br> Escuela: " + escuela + ",<br> Carrera: " + carrera;
+  if (document.getElementById("otraCarrera").style.display === "block") {
+    carrera = document.getElementById("otraC").value;
+  }
+  document.getElementById("resultado").innerHTML = "Nombre: " + nombre + "<br> Telefono: " + telefono +  "<br> Correo: " + correo + "<br> Escuela: " + escuela + "<br> Carrera: " + carrera;
 }
+OPciones_Escuela(document.getElementById("escuela").value);
 
 </script>
 
