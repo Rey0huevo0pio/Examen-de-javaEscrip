@@ -1,0 +1,17 @@
+body{
+background-color: antiquewhite;
+text-overflow: inherit;
+font-family: cursive;
+}
+.registro{
+border: 3px solid ;
+width: 50%;
+
+background-color: bisque;
+}
+.Envio{
+    border: 3px solid saddlebrown;
+    width: 50% ;
+    background-color: rgb(241, 182, 211);
+    
+}

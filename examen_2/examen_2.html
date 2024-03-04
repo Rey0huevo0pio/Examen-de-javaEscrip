@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head><link rel="stylesheet" type="text/css" href="/examen_2/examen_2.css"
+<body>
+
+<h2>Formulario de Registro</h2>
+<center>
+<form id="registro" class="registro">
+  <!--parte uno nombre -->
+
+  <label for="nombre">Nombre:</label><br>
+  <input type="text" id="nombre" name="nombre"><br>
+  
+  <!--parte dos telefono -->
+  <label for="telefono">Telefono:</label><br>
+  <input type="text" id="telefono" name="telefono"><br>
+  <!--parte tres Correo -->
+  <label for="correo">Correo:</label><br>
+  <input type="text" id="correo" name="correo"><br>
+
+
+
+  <!--parte Cuatro escula-->
+
+
+  <label for="escuela">Escuela:</label><br>
+
+  <select id="escuela" name="escuela" onchange="checkOtherSchool(this.value)">
+    <option value="Cecytem">Cecytem</option>
+    <option value="Conalep">Conalep</option>
+    <option value="Cetmar">Cetmar</option>
+    <option value="Otra escula">Otra</option>
+  </select><br>
+  <div id="otraEscuela" style="display: none;">
+    <label for="otraE">Otra Escuela:</label><br>
+    <input type="text" id="otraE" name="otraE"><br>
+  </div>
+  <!--Parte 5 carreras con opciones-->
+  <label for="carrera">Carrera:</label><br>
+
+  <select id="carrera" name="carrera" onchange="checkOtherCareer(this.value)">
+    <option value="Ingeniería">Ingeniería</option>
+    <option value="Medicina">Medicina</option>
+    <option value="Derecho">Derecho</option>
+    <option value="otra">Otra</option>
+  </select><br>
+  <div id="otraCarrera" style="display: none;">
+    <label for="otra">Otra Carrera:</label><br>
+    <input type="text" id="otra" name="otra"><br>
+  </div> <!--donde termina-->
+
+  <input type="button" value="Enviar" onclick="Envio()" > <!--donde termina-->
+
+</form>
+</center>
+<p id="resultado"  class="Envio"></p>
+
+<script>
+function checkOtherCareer(value) {
+  if (value === "otra") {
+    document.getElementById("otraCarrera").style.display = "block";
+  } else {
+    document.getElementById("otraCarrera").style.display = "none";
+  }
+}
+function checkOtherSchool(value) {
+  if (value === "Otra escula") {
+    document.getElementById("otraEscuela").style.display = "block";
+  } else {
+    document.getElementById("otraEscuela").style.display = "none";
+  }
+}
+
+function Envio() {
+  var nombre = document.getElementById("nombre").value;
+  var telefono = document.getElementById("telefono").value;
+  var correo = document.getElementById("correo").value;
+  var escuela = document.getElementById("escuela").value;
+  var carrera = document.getElementById("carrera").value;
+  if (carrera === "otra") {
+    carrera = document.getElementById("otra").value;
+  }
+  if (escuela === "Otra escula") {
+    escuela = document.getElementById("otraE").value;
+  }
+  document.getElementById("resultado").innerHTML = "Nombre: " + nombre + ",<br> Telefono: " + telefono +  ",<br> Correo: " + correo + ",<br> Escuela: " + escuela + ",<br> Carrera: " + carrera;
+}
+
+</script>
+
+</body>
+</html>
