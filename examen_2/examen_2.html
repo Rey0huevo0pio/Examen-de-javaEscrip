@@ -1,93 +1,174 @@
 <!DOCTYPE html>
 <html>
+<head>
+  <link rel="stylesheet" href="examen_2.css">
+</head>
 <body>
-<head><link rel="stylesheet" href="examen_2.css"></head>
-<h2>Formulario de Registro</h2>
-<center>
-<form id="registro" class="registro">
-  <!--parte uno nombre -->
-  <label for="nombre">Nombre:</label><br>
-  <input type="text" id="nombre" name="nombre"><br>
-  
-  <!--parte dos telefono -->
-  <label for="telefono">Telefono:</label><br>
-  <input type="text" id="telefono" name="telefono"><br>
-  
-  <!--parte tres Correo -->
-  <label for="correo">Correo:</label><br>
-  <input type="text" id="correo" name="correo"><br>
+  <h2>Formulario de Registro</h2>
+  <center>
+    <form id="registro" class="registro">
+      <!-- Parte uno: Nombre -->
+      <label for="nombre">Nombre:</label><br>
+      <input type="text" id="nombre" name="nombre" required><br>
 
-  <!--parte Cuatro escuela-->
-  <label for="escuela">Escuela:</label><br>
-  <select id="escuela" name="escuela" onchange="OPciones_Escuela(this.value)">
-    <option value="Cecytem">Cecytem</option>
-    <option value="Conalep">Conalep</option>
-    <option value="Cetmar">Cetmar</option>
-    <option value="Otra escuela">Otra</option>
-  </select><br>
-  <div id="otraEscuela" style="display: none;">
-    <label for="otraE">Otra Escuela:</label><br>
-    <input type="text" id="otraE" name="otraE"><br>
+      <!-- Parte dos: Teléfono -->
+      <label for="telefono">Teléfono:</label><br>
+      <input type="text" id="telefono" name="telefono" required><br>
+
+      <!-- Parte tres: Correo -->
+      <label for="correo">Correo:</label><br>
+      <input type="text" id="correo" name="correo" required><br>
+
+      <!-- Parte cuatro: Escuela -->
+      <label for="escuela">Escuela:</label><br>
+      <select id="escuela" name="escuela" onchange="CargarCarreras(this.value)">
+        <option value="Cecytem">Cecytem</option>
+        <option value="Conalep">Conalep</option>
+        <option value="Cetmar">Cetmar</option>
+        <option value="Otra escuela">Otra escuela</option>
+      </select><br>
+      <div id="otraEscuela" style="display: none;">
+        <label for="otraE">Otra Escuela:</label><br>
+        <input type="text" id="otraE" name="otraE" required><br>
+
+        <!--Carrera adicional -->
+        <label for="carreraAdicional">Carrera:</label><br>
+        <input type="text" id="carreraAdicional" name="carreraAdicional" required><br>
+      </div>
+
+      <!-- Parte cinco: Carreras -->
+      <label for="carrera">Carrera:</label><br>
+      <select id="carrera" name="carrera" onchange="MostrarOtraCarrera()">
+        
+      </select><br>
+      <div id="otraCarrera" style="display: none;">
+        <label for="otraC">Otra Carrera:</label><br>
+        <input type="text" id="otraC" name="otraC" required><br>
+      </div>
+
+      <input type="button" value="Enviar" onclick="AgregarRegistro()">
+    </form>
+  </center>
+  <p id="resultado" class="Envio"></p>
+
+  <!-- registros -->
+  <div id="historial">
+    <h3>Historial de Registros:</h3>
+    <ul id="listaRegistros"></ul>
   </div>
 
-  <!--Parte 5 carreras con opciones-->
-  <label for="carrera">Carrera:</label><br>
-  <select id="carrera" name="carrera">
-  </select><br>
-  <div id="otraCarrera" style="display: none;">
-    <label for="otraC">Otra Carrera:</label><br>
-    <input type="text" id="otraC" name="otraC"><br>
-  </div>
+  <script>
+    var escuelasCarreras = {
+      Cecytem: ["Informatica", "Alimentos", "Negocios"],
+      Conalep: ["Enfermeria", "Sistema", "electrica"],
+      Cetmar: ["agua cultura", "logistica", "mecanica naval"]
+    };
 
-  <input type="button" value="Enviar" onclick="Envio()" >
-</form>
-</center>
-<p id="resultado"  class="Envio"></p>
+    var registros = []; 
 
-<script>
-var carrerasPorEscuela = {
-  "Cecytem": ["Homosexualid", "Gay","Pedofilo","Fresa"],
-  "Conalep": ["Robar", "Ser mama","secuestrar"],
-  "Cetmar": ["Transexual", "Progre","gay"],
-  "Otra escuela": []
-};
+    function AgregarRegistro() {
+      var nombre = document.getElementById("nombre").value;
+      var telefono = document.getElementById("telefono").value;
+      var correo = document.getElementById("correo").value;
+      var escuela = document.getElementById("escuela").value;
+      var carrera = document.getElementById("carrera").value;
+      var otraEscuela = document.getElementById("otraE").value;
+      var otraCarrera = document.getElementById("otraC").value;
+      var carreraAdicional = document.getElementById("carreraAdicional").value;
 
-function OPciones_Escuela(value) {
-  var selectCarrera = document.getElementById("carrera");
-  selectCarrera.innerHTML = "";
-  var carreras = carrerasPorEscuela[value];
-  for(var i = 0; i < carreras.length; i++) {
-    var opt = document.createElement('option');
-    opt.value = carreras[i];
-    opt.innerHTML = carreras[i];
-    selectCarrera.appendChild(opt);
-  }
-  if (value === "Otra escuela") {
-    document.getElementById("otraEscuela").style.display = "block";
-    document.getElementById("otraCarrera").style.display = "block";
-  } else {
-    document.getElementById("otraEscuela").style.display = "none";
-    document.getElementById("otraCarrera").style.display = "none";
-  }
-}
+      if (escuela === "Otra escuela") {
+        escuela = otraEscuela;
+        carrera = carreraAdicional;
+      }
 
-function Envio() {
-  var nombre = document.getElementById("nombre").value;
-  var telefono = document.getElementById("telefono").value;
-  var correo = document.getElementById("correo").value;
-  var escuela = document.getElementById("escuela").value;
-  var carrera = document.getElementById("carrera").value;
-  if (escuela === "Otra escuela") {
-    escuela = document.getElementById("otraE").value;
-  }
-  if (document.getElementById("otraCarrera").style.display === "block") {
-    carrera = document.getElementById("otraC").value;
-  }
-  document.getElementById("resultado").innerHTML = "Nombre: " + nombre + "<br> Telefono: " + telefono +  "<br> Correo: " + correo + "<br> Escuela: " + escuela + "<br> Carrera: " + carrera;
-}
-OPciones_Escuela(document.getElementById("escuela").value);
+      if (carrera === "Otra carrera") {
+        carrera = otraCarrera;
+      }
 
-</script>
+      var nuevoRegistro = {
+        nombre: nombre,
+        telefono: telefono,
+        correo: correo,
+        escuela: escuela,
+        carrera: carrera
+      };
 
+      registros.push(nuevoRegistro);
+
+      document.getElementById("resultado").textContent = "Datos enviados correctamente.";
+
+      ActualizarHistorial();
+    }
+
+    function CargarCarreras(escuelaSeleccionada) {
+      var carrerasSelect = document.getElementById("carrera");
+      carrerasSelect.innerHTML = ""; 
+
+      var otraEscuelaDiv = document.getElementById("otraEscuela");
+      var otraEscuelaInput = document.getElementById("otraE");
+
+     
+      var carreraAdicionalDiv = document.getElementById("otraEscuela").querySelector("#carreraAdicional");
+      carreraAdicionalDiv.style.display = (escuelaSeleccionada === "Otra escuela") ? "block" : "none";
+
+      if (escuelaSeleccionada === "Otra escuela") {
+        otraEscuelaDiv.style.display = "block";
+        otraEscuelaInput.required = true;
+      } else {
+        otraEscuelaDiv.style.display = "none";
+        otraEscuelaInput.required = false;
+
+        var carreras = escuelasCarreras[escuelaSeleccionada] || [];
+        AgregarOpcionesCarrera(carreras);
+
+        var optionOtraCarrera = document.createElement("option");
+        optionOtraCarrera.value = "Otra carrera";
+        optionOtraCarrera.text = "Otra carrera";
+        carrerasSelect.add(optionOtraCarrera);
+      }
+
+     
+      document.getElementById("otraCarrera").style.display = "none";
+    }
+
+    function AgregarOpcionesCarrera(carreras) {
+      var carrerasSelect = document.getElementById("carrera");
+
+      if (carreras.length > 0) {
+        for (var i = 0; i < carreras.length; i++) {
+          var option = document.createElement("option");
+          option.value = carreras[i];
+          option.text = carreras[i];
+          carrerasSelect.add(option);
+        }
+      }
+    }
+
+    function MostrarOtraCarrera() {
+      var selectedCarrera = document.getElementById("carrera").value;
+      var otraCarreraDiv = document.getElementById("otraCarrera");
+
+      if (selectedCarrera === "Otra carrera") {
+        otraCarreraDiv.style.display = "block";
+      } else {
+        otraCarreraDiv.style.display = "none";
+      }
+    }
+
+    function ActualizarHistorial() {
+      var historialDiv = document.getElementById("historial");
+      historialDiv.innerHTML = "<h3>Historial de Registros:</h3>";
+      for (var i = 0; i < registros.length; i++) {
+        var registro = registros[i];
+        var registroHTML =
+          "<p><strong>Nombre:</strong> " + registro.nombre + "<br>" +
+          "<strong>Teléfono:</strong> " + registro.telefono + "<br>" +
+          "<strong>Correo:</strong> " + registro.correo + "<br>" +
+          "<strong>Escuela:</strong> " + registro.escuela + "<br>" +
+          "<strong>Carrera:</strong> " + registro.carrera + "</p>";
+        historialDiv.innerHTML += registroHTML;
+      }
+    }
+  </script>
 </body>
 </html>
